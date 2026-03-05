@@ -84,3 +84,17 @@ node_modules/
 # System files
 # =========================
 Thumbs.db
+
+
+# =========================
+# Vector database / embeddings
+# =========================
+vectordb/
+faiss_index/
+*.faiss
+*.pkl
+
+!vectordb/
+!vectordb/laws_faiss/
+!vectordb/laws_faiss/index.faiss
+!vectordb/laws_faiss/index.pkl
