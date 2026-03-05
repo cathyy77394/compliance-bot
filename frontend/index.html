@@ -1,0 +1,184 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Compliance Bot Demo</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+  <div class="chatbot-layout">
+    <aside class="sidebar">
+      <h2>Compliance History</h2>
+      <button id="newChatBtn" class="new-chat-btn">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+          stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="12" y1="5" x2="12" y2="19"></line>
+          <line x1="5" y1="12" x2="19" y2="12"></line>
+        </svg>
+        New Chat
+      </button>
+    </aside>
+
+    <main class="main-content">
+      <div id="welcomeScreen" class="welcome-screen">
+        <h1>Welcome to</h1>
+        <h1>Future of Marketing Institute<h1>Compliance Bot</h1><span class="brand-fmi">By Fujia Yang & Jingxuan
+            He</span></h1>
+        <p class="muted">
+          Paste your advertising text or upload images to check for compliance issues. These results are suggestions
+          only and must not be used directly as advertisement copy. FMI disclaims all liability for the use of these
+          suggestions.
+        </p>
+      </div>
+
+      <div class="scrollable-content">
+        <div id="resultArea" style="display:none;">
+          <div class="result-container">
+
+            <!-- SUMMARY -->
+            <div class="card">
+              <h2 style="margin:0 0 8px;">Summary</h2>
+
+              <div style="display:flex; gap: 16px; align-items:center;">
+                <div style="font-size: 36px; font-weight: 700;" id="overallScore">--</div>
+                <div class="muted">/ 100</div>
+                <div id="riskPill" class="pill">Risk</div>
+              </div>
+
+              <div class="muted" id="summaryNote"></div>
+
+              <!-- add Flagged issues count -->
+              <div id="flaggedCount" style="margin-top:6px; font-weight:600; color:#c62828;"></div>
+
+            </div>
+
+
+            <!-- CATEGORY -->
+            <div class="card">
+              <h2 style="margin:0 0 8px;">Category Breakdown (0–25 each)</h2>
+              <div id="categories"></div>
+            </div>
+
+
+            <!-- ISSUES -->
+            <div class="card">
+              <h2 style="margin:0 0 8px;">Flagged Issues</h2>
+              <div id="issues"></div>
+              <div id="noIssues" class="muted" style="display:none;">No issues flagged.</div>
+            </div>
+
+
+            <!-- REWRITE -->
+            <div class="card">
+              <h2 style="margin:0 0 8px;">Rewrite Suggestions</h2>
+
+              <div class="grid2">
+
+                <!-- only keep 1 rewrite（bullets） -->
+                <div>
+                  <div class="muted">Recommended rewrite</div>
+
+                  <div class="card" style="margin-top:8px;">
+                    <ul id="saferAlternatives" style="margin:0; padding-left: 18px;"></ul>
+
+                    <button id="copyRewriteBtn" type="button" style="margin-top:10px;">
+                      Copy
+                    </button>
+                  </div>
+                </div>
+
+                <!-- add Explanation -->
+                <div>
+                  <div class="muted">Why this rewrite</div>
+
+                  <div class="card" style="margin-top:8px;">
+                    <div id="rewriteExplanation"></div>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+
+
+            <!-- IMAGE SUMMARY -->
+            <div class="card" id="imageCard" style="display:none;">
+              <h2 style="margin:0 0 8px;">Image Summary (what the engine detected)</h2>
+
+              <div class="muted">Extracted text</div>
+              <div class="card" style="margin-top:8px;">
+                <div id="imgExtractedText"></div>
+              </div>
+
+              <div class="muted" style="margin-top:10px;">Potential risk signals</div>
+              <ul id="imgRiskSignals" style="margin:6px 0 0; padding-left: 18px;"></ul>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+
+      <!-- INPUT AREA -->
+      <div class="input-area">
+        <div class="chat-input-container">
+
+          <input id="adImage" type="file" accept="image/*" style="display:none;" />
+
+          <button id="uploadTriggerBtn" class="icon-btn" title="Upload Image" type="button">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+              stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+              <polyline points="17 8 12 3 7 8"></polyline>
+              <line x1="12" y1="3" x2="12" y2="15"></line>
+            </svg>
+          </button>
+
+          <div class="chat-input-wrapper">
+            <div id="imagePreviewContainer" class="image-preview-container" style="display: none;">
+              <img id="imagePreview" src="" alt="Image Preview" />
+              <button id="removeImageBtn" class="remove-image-btn" type="button" title="Remove image">
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none"
+                  stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                  <line x1="18" y1="6" x2="6" y2="18"></line>
+                  <line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
+              </button>
+            </div>
+
+            <textarea id="adText" placeholder="Paste your advertising text here..." rows="1"></textarea>
+          </div>
+
+          <button id="analyzeBtn" class="icon-btn primary" title="Run Analysis" type="button">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+              stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="22" y1="2" x2="11" y2="13"></line>
+              <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+            </svg>
+          </button>
+
+        </div>
+
+        <div class="input-footer">
+          <div id="status" class="muted"></div>
+        </div>
+      </div>
+
+
+      <!-- Hidden config -->
+      <div style="display:none;">
+        <input id="baseUrl" value="http://127.0.0.1:8000" />
+        <code id="baseUrlText"></code>
+        <button id="fillCase1Btn" type="button"></button>
+        <button id="clearBtn" type="button"></button>
+      </div>
+
+    </main>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+
+</html>

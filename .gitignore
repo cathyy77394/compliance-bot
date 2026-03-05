@@ -1,0 +1,27 @@
+# secrets
+.env
+.env.*
+
+# python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.venv/
+venv/
+env/
+
+# logs
+*.log
+
+# vector database
+vectordb/
+*.faiss
+*.index
+*.pkl
+
+# mac
+.DS_Store
+
+# local data
+Data/
