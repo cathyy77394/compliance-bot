@@ -3,6 +3,21 @@ const defaultBaseUrl = "https://compliance-bot-production.up.railway.app";
 const el = (id) => document.getElementById(id);
 const statusEl = el("status");
 
+// =======================
+// Basic Auth (Method 3)
+// =======================
+let basicUser = "";
+let basicPass = "";
+
+function getAuthHeader() {
+    if (!basicUser || !basicPass) {
+        basicUser = prompt("API Username:") || "";
+        basicPass = prompt("API Password:") || "";
+    }
+    const token = btoa(`${basicUser}:${basicPass}`);
+    return `Basic ${token}`;
+}
+
 // Initialization
 el("baseUrl").value = defaultBaseUrl;
 el("baseUrlText").textContent = defaultBaseUrl;
@@ -138,7 +153,6 @@ el("analyzeBtn").addEventListener("click", async () => {
         riskToPill(result.risk_level || "");
 
         //  flag issue 
-
         const issueCount = (result.flagged_issues || []).length;
 
         if (issueCount > 0) {
@@ -214,7 +228,6 @@ function renderIssues(issues) {
     }
 
     el("noIssues").style.display = "none";
-
 
     const severityRank = {
         HIGH: 3,
@@ -323,7 +336,10 @@ async function postJson(url, payload) {
 
     const res = await fetch(url, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": getAuthHeader()
+        },
         body: JSON.stringify(payload)
     });
 
@@ -339,6 +355,9 @@ async function postForm(url, formData) {
 
     const res = await fetch(url, {
         method: "POST",
+        headers: {
+            "Authorization": getAuthHeader()
+        },
         body: formData
     });
 
@@ -347,6 +366,5 @@ async function postForm(url, formData) {
     if (!res.ok) throw new Error(text || `HTTP ${res.status}`);
 
     return JSON.parse(text);
-
 
 }
