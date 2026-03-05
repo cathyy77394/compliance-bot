@@ -1,4 +1,25 @@
 # app.py
+import os
+import secrets
+from fastapi.security import HTTPBasic, HTTPBasicCredentials
+from fastapi import Depends
+
+security = HTTPBasic()
+
+BASIC_USER = os.getenv("BASIC_AUTH_USER", "")
+BASIC_PASS = os.getenv("BASIC_AUTH_PASS", "")
+
+def require_basic_auth(credentials: HTTPBasicCredentials = Depends(security)):
+    if not BASIC_USER or not BASIC_PASS:
+        raise RuntimeError("Basic auth not configured: set BASIC_AUTH_USER and BASIC_AUTH_PASS")
+
+    ok_user = secrets.compare_digest(credentials.username, BASIC_USER)
+    ok_pass = secrets.compare_digest(credentials.password, BASIC_PASS)
+
+    if not (ok_user and ok_pass):
+        raise HTTPException(status_code=401, detail="Unauthorized")
+
+    return True
 from typing import Optional, Dict, Any
 
 from fastapi import FastAPI, HTTPException, UploadFile, File, Form
@@ -8,7 +29,6 @@ from pydantic import BaseModel
 
 from analyze_text import analyze_ad_text
 
-import os
 
 def _require_api_key():
     key = os.getenv("OPENAI_API_KEY")
