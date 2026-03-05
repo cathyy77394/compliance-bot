@@ -111,7 +111,7 @@ async def analyze_multimodal_endpoint(
         mime_type = image.content_type or "image/jpeg"
         text = (ad_text or "").strip()
 
-        # ✅ Call your real multimodal function
+        # Call your real multimodal function
         mm = analyze_multimodal(ad_text=text, image_bytes=img_bytes, mime_type=mime_type)
 
         # mm is: {"result": <text engine result>, "image_summary": {...}}
