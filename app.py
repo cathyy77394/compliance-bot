@@ -44,7 +44,12 @@ except Exception:
     analyze_multimodal = None
 
 
-app = FastAPI(title="Compliance Bot API", version="1.0")
+app = FastAPI(
+    title="Compliance Bot API",
+    version="1.0",
+    docs_url=None,
+    redoc_url=None
+)
 
 app.add_middleware(
     CORSMiddleware,
