@@ -1,4 +1,4 @@
-const defaultBaseUrl = "http://127.0.0.1:8000";
+const defaultBaseUrl = "https://compliance-bot-production.up.railway.app";
 
 const el = (id) => document.getElementById(id);
 const statusEl = el("status");
@@ -137,7 +137,7 @@ el("analyzeBtn").addEventListener("click", async () => {
         el("overallScore").textContent = result.overall_score ?? "--";
         riskToPill(result.risk_level || "");
 
-        // -------- 新增：统计 flag issue --------
+        //  flag issue 
 
         const issueCount = (result.flagged_issues || []).length;
 
@@ -215,7 +215,6 @@ function renderIssues(issues) {
 
     el("noIssues").style.display = "none";
 
-    // -------- 新增：按严重程度排序 --------
 
     const severityRank = {
         HIGH: 3,
@@ -348,5 +347,6 @@ async function postForm(url, formData) {
     if (!res.ok) throw new Error(text || `HTTP ${res.status}`);
 
     return JSON.parse(text);
+
 
 }
