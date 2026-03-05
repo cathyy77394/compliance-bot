@@ -1,4 +1,4 @@
-const defaultBaseUrl = "http://127.0.0.1:8000";
+const defaultBaseUrl = "https://compliance-bot-production.up.railway.app";
 
 const el = (id) => document.getElementById(id);
 const statusEl = el("status");
@@ -348,5 +348,6 @@ async function postForm(url, formData) {
     if (!res.ok) throw new Error(text || `HTTP ${res.status}`);
 
     return JSON.parse(text);
+
 
 }
