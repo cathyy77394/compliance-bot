@@ -1,11 +1,11 @@
-fastapi
-uvicorn[standard]
-python-multipart
+fastapi==0.115.0
+uvicorn[standard]==0.30.6
+python-multipart==0.0.9
 
-langchain
-langchain-openai
-langchain-community
+langchain==0.2.16
+langchain-openai==0.1.23
+langchain-community==0.2.16
 
-faiss-cpu
-numpy
-pydantic
+faiss-cpu==1.8.0.post1
+numpy==1.26.4
+pydantic==2.8.2
