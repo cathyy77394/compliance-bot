@@ -7,6 +7,8 @@ from fastapi.responses import JSONResponse
 from pydantic import BaseModel
 
 from analyze_text import analyze_ad_text
+import os
+print("OPENAI_API_KEY exists:", bool(os.getenv("OPENAI_API_KEY")))
 
 # Import the REAL function name from analyze_multimodal.py
 # Your file defines: analyze_ad_text_and_image(ad_text, image_bytes, mime_type) -> Dict
