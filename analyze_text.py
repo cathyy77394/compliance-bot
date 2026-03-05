@@ -77,7 +77,7 @@ RISK_LEVELS = [
 # Utilities
 # =========================
 
-def _require_api_key():
+def key = _require_api_key():
     if not os.getenv("OPENAI_API_KEY"):
         raise RuntimeError("OPENAI_API_KEY not set")
 
