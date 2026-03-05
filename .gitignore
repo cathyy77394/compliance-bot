@@ -1,27 +1,86 @@
-# secrets
-.env
-.env.*
+# =========================
+# macOS
+# =========================
+.DS_Store
+.AppleDouble
+.LSOverride
 
-# python
+# =========================
+# Python
+# =========================
 __pycache__/
-*.pyc
-*.pyo
-*.pyd
-.venv/
+*.py[cod]
+*$py.class
+
+# Python virtual environment
 venv/
 env/
+.venv/
 
-# logs
+# Python packaging
+build/
+dist/
+*.egg-info/
+.eggs/
+
+# =========================
+# Jupyter
+# =========================
+.ipynb_checkpoints
+
+# =========================
+# Environment variables
+# =========================
+.env
+.env.*
+*.env
+
+# =========================
+# Logs
+# =========================
 *.log
 
-# vector database
+# =========================
+# Vector database / embeddings
+# =========================
 vectordb/
+faiss_index/
 *.faiss
-*.index
 *.pkl
 
-# mac
-.DS_Store
-
-# local data
+# =========================
+# Data files (optional)
+# =========================
 Data/
+data/
+datasets/
+
+# =========================
+# Temporary files
+# =========================
+tmp/
+temp/
+*.tmp
+
+# =========================
+# Office temporary files
+# =========================
+~$*
+
+# =========================
+# IDE / Editor
+# =========================
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# =========================
+# Node / Frontend (if used)
+# =========================
+node_modules/
+
+# =========================
+# System files
+# =========================
+Thumbs.db
