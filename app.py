@@ -102,12 +102,12 @@ def _fix_scores(result_obj: Dict[str, Any]) -> Dict[str, Any]:
 
 
 @app.get("/health")
-def health():
+def health(_=Depends(require_basic_auth)):
     return {"status": "ok"}
 
 
 @app.post("/analyze")
-def analyze(request: AnalyzeRequest):
+def analyze(request: AnalyzeRequest,_=Depends(require_basic_auth)):
     try:
         if not request.ad_text or not request.ad_text.strip():
             raise HTTPException(status_code=400, detail="ad_text cannot be empty")
@@ -127,6 +127,7 @@ def analyze(request: AnalyzeRequest):
 async def analyze_multimodal_endpoint(
     ad_text: Optional[str] = Form(None),
     image: Optional[UploadFile] = File(None),
+    _=Depends(require_basic_auth)
 ):
     if analyze_multimodal is None:
         raise HTTPException(status_code=501, detail="Multimodal analysis is not enabled in this build.")
