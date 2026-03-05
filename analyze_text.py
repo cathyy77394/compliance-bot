@@ -78,8 +78,10 @@ RISK_LEVELS = [
 # =========================
 
 def _require_api_key():
-    if not os.getenv("OPENAI_API_KEY"):
+    key = os.getenv("OPENAI_API_KEY")
+    if not key or not key.strip():
         raise RuntimeError("OPENAI_API_KEY not set")
+    return key
 
 
 def _load_vectorstore():
