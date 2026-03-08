@@ -8,9 +8,6 @@ from langchain_openai import ChatOpenAI
 from analyze_text import analyze_ad_text
 
 
-# =========================
-# Config
-# =========================
 
 VISION_MODEL_NAME = "gpt-4.1-mini"
 
